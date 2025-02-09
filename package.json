@@ -1,6 +1,6 @@
 {
-  "name": "simple-retry",
-  "description": "A simple retry function helper for TypeScript.",
+  "name": "light-retry",
+  "description": "A light retry function helper for TypeScript.",
   "version": "0.0.2",
   "type": "module",
   "main": "./dist/index.js",
