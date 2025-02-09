@@ -4,19 +4,35 @@ type UnwrapPromise<TPromiseFn extends () => Promise<any>> = Promise<
   Awaited<ReturnType<TPromiseFn>>
 >
 
+export type RetryOptions = {
+  retries?: number
+  delayFn?: (attempts: number) => number
+  signal?: AbortSignal
+}
+
 export async function retry<TPromiseFn extends () => Promise<any>>(
   fn: TPromiseFn,
-  retries = 3,
-  delay = 0
+  options?: RetryOptions
 ): UnwrapPromise<TPromiseFn> {
   let attempts = 0
+  const { delayFn = () => 500, retries = 3, signal } = options ?? {}
+
   async function run(): UnwrapPromise<TPromiseFn> {
+    if (signal?.aborted) throw new Error("Aborted")
+
     return fn()
-      .then(result => result)
+      .then(result => {
+        if (signal?.aborted) throw new Error("Aborted")
+        return result
+      })
       .catch(async error => {
         attempts++
         if (attempts >= retries) throw error
-        if (delay > 0) await sleep(delay)
+        if (signal?.aborted) throw new Error("Aborted")
+
+        const delay = delayFn(attempts)
+        if (delay > 0) await sleep(delay, signal)
+        if (signal?.aborted) throw new Error("Aborted")
         return run()
       })
   }
