@@ -1,0 +1,29 @@
+{
+  "name": "simple-retry",
+  "version": "0.0.1",
+  "description": "A simple retry function helper for TypeScript.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    ""
+  ],
+  "scripts": {
+    "check": "tsc --noEmit --project ./tsconfig.app.json",
+    "pr": "prettier --write src",
+    "build": "tsup"
+  },
+  "author": "vitormarkis",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
+  "devDependencies": {
+    "tsup": "^8.3.6",
+    "typescript": "^5.5.3"
+  }
+}
