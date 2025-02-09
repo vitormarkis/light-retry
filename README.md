@@ -1,11 +1,9 @@
 ### How to use
-
 ```js
 function main() {
-  const options = {
+  const result = await retry(() => fetch('/todos'), {
     retries: 3,
     retryStrategy: exponentialBackoff
-  }
-  const result = await retry(() => fetch('https://jsonplaceholder.typicode.com/todos/1'), options)
+  })
 }
 ```
